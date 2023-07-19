@@ -9,6 +9,9 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { TamaguiProvider } from "@tamagui/web";
+import tamaguiConfig from "../tamagui.config";
+
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
@@ -23,7 +26,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <TamaguiProvider config={tamaguiConfig}>
+          <Outlet />
+        </TamaguiProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
