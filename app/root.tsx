@@ -28,10 +28,10 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
-        <style type="text/css">{tamaguiStyles}</style>
+        <style>{tamaguiStyles}</style>
       </head>
       <body>
-        <TamaguiProvider config={tamaguiConfig}>
+        <TamaguiProvider config={tamaguiConfig} disableRootThemeClass={true}>
           <Outlet />
           <script
             dangerouslySetInnerHTML={{
