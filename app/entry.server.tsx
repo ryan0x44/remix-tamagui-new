@@ -7,13 +7,15 @@
 import type { AppLoadContext, EntryContext } from "@remix-run/cloudflare";
 import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
-import { renderToReadableStream } from "react-dom/server";
+import { renderToString } from "react-dom/server";
 
 if (typeof globalThis.process === 'undefined') {
   // @ts-ignore
   globalThis.process = { env: {} };
 }
 process.env.TAMAGUI_TARGET = "web";
+
+import tamaguiConfig from "tamagui.config";
 
 export default async function handleRequest(
   request: Request,
@@ -22,21 +24,13 @@ export default async function handleRequest(
   remixContext: EntryContext,
   loadContext: AppLoadContext
 ) {
-  const body = await renderToReadableStream(
-    <RemixServer context={remixContext} url={request.url} />,
-    {
-      signal: request.signal,
-      onError(error: unknown) {
-        // Log streaming rendering errors from inside the shell
-        console.error(error);
-        responseStatusCode = 500;
-      },
-    }
+  let body = renderToString(
+    <RemixServer
+      context={remixContext}
+      url={request.url}
+    />
   );
-
-  if (isbot(request.headers.get("user-agent"))) {
-    await body.allReady;
-  }
+  body = body.replace("__STYLES__", tamaguiConfig.getCSS());
 
   responseHeaders.set("Content-Type", "text/html");
   return new Response(body, {
