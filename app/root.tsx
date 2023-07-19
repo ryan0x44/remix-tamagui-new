@@ -26,7 +26,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <TamaguiProvider config={tamaguiConfig}>
+        <TamaguiProvider config={tamaguiConfig} disableInjectCSS={true}>
           <Outlet />
           <script
             dangerouslySetInnerHTML={{
