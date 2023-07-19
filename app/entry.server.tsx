@@ -9,6 +9,12 @@ import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToReadableStream } from "react-dom/server";
 
+if (typeof globalThis.process === 'undefined') {
+  // @ts-ignore
+  globalThis.process = { env: {} };
+}
+process.env.TAMAGUI_TARGET = "web";
+
 export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
