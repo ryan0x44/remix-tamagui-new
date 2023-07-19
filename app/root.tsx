@@ -28,6 +28,16 @@ export default function App() {
       <body>
         <TamaguiProvider config={tamaguiConfig}>
           <Outlet />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              if (typeof window.process === 'undefined') {
+                globalThis.process = { env: {} };
+              }
+              process.env.TAMAGUI_TARGET = \"web\";
+              `,
+            }}
+          />
         </TamaguiProvider>
         <ScrollRestoration />
         <Scripts />
