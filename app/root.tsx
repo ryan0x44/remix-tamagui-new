@@ -11,9 +11,11 @@ import {
 
 import { TamaguiProvider } from "@tamagui/web";
 import tamaguiConfig from "../tamagui.config";
+import tamaguiResetStyles from '@tamagui/core/reset.css';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  { rel: "stylesheet", href: tamaguiResetStyles }
 ];
 
 export default function App() {
